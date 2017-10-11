@@ -4,10 +4,14 @@ import numpy as np
 from pyqtgraph import QtCore
 from skued import baseline_dt
 
-class Controller(QtCore.QObject):
+from .error_aware import ErrorAware
+
+class Controller(QtCore.QObject, metaclass = ErrorAware):
 
     raw_plot_signal = QtCore.pyqtSignal(object, object)
     baseline_plot_signal = QtCore.pyqtSignal(object, object)
+
+    error_message_signal = QtCore.pyqtSignal(str)
 
     clear_raw_signal = QtCore.pyqtSignal()
     clear_baseline_signal = QtCore.pyqtSignal()
@@ -37,6 +41,18 @@ class Controller(QtCore.QObject):
         self.clear_baseline_signal.emit()
 
         self.raw_plot_signal.emit(self.abscissa, self.raw_ordinates)
+    
+    # TODO: add GUI controls for this
+    @QtCore.pyqtSlot(float, float)
+    def trim_data_bounds(self, mi, ma):
+        """ Trim data according to abscissa values 'mi' and 'ma'."""
+        min_ind = int(np.argmin(np.abs(self.abscissa - mi)))
+        max_ind = int(np.argmin(np.abs(self.abscissa - ma)))
+
+        self.abscissa = self.abscissa[min_ind:max_ind]
+        self.raw_ordinates = self.raw_ordinates[min_ind:max_ind]
+        self.raw_plot_signal.emit(self.abscissa, self.raw_ordinates)
+        self.clear_baseline_signal.emit()
     
     @QtCore.pyqtSlot(str)
     def export_data(self, fname):
