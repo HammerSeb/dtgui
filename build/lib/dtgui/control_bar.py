@@ -3,32 +3,36 @@
 from pyqtgraph import QtCore, QtGui
 from pywt import Modes
 
-from .batch import BatchProcessDialog
-
 from skued.baseline import ALL_COMPLEX_WAV, ALL_FIRST_STAGE
 
-class ControlBar(QtGui.QWidget):
+from .error_aware import ErrorAware
+
+class ControlBar(QtGui.QWidget, metaclass = ErrorAware):
 
     baseline_parameters_signal = QtCore.pyqtSignal(dict)
-    raw_data_path = QtCore.pyqtSignal(str)
-    export_data_path = QtCore.pyqtSignal(str)
+    show_trim_widget = QtCore.pyqtSignal(bool)
+    trim_bounds_signal = QtCore.pyqtSignal()
 
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.load_spectra_btn = QtGui.QPushButton('Load spectra (.csv)')
-        self.load_spectra_btn.clicked.connect(self.load_raw_data)
+        show_trim_bounds_btn = QtGui.QPushButton('Trim data bounds')
+        show_trim_bounds_btn.setCheckable(True)
+        show_trim_bounds_btn.toggled.connect(self.show_trim_widget)
 
-        self.export_spectra_btn = QtGui.QPushButton('Export corrected spectra')
-        self.export_spectra_btn.clicked.connect(self.export_bs_data)
+        trigger_trim_btn = QtGui.QPushButton('Use current bounds')
+        trigger_trim_btn.clicked.connect(self.trim_bounds_signal)
+        trigger_trim_btn.clicked.connect(lambda: show_trim_bounds_btn.setChecked(False))
+        show_trim_bounds_btn.toggled.connect(trigger_trim_btn.setEnabled)
+        trigger_trim_btn.setEnabled(False)
 
-        btns = QtGui.QHBoxLayout()
-        btns.addWidget(self.load_spectra_btn)
-        btns.addWidget(self.export_spectra_btn)
+        data_controls_layout = QtGui.QHBoxLayout()
+        data_controls_layout.addWidget(show_trim_bounds_btn)
+        data_controls_layout.addWidget(trigger_trim_btn)
 
-        file_controls = QtGui.QGroupBox(title = 'File and batches', parent = self)
-        file_controls.setLayout(btns)
+        data_controls = QtGui.QGroupBox(title = 'Data massaging', parent = self)
+        data_controls.setLayout(data_controls_layout)
 
         self.first_stage_cb = QtGui.QComboBox()
         self.first_stage_cb.addItems(ALL_FIRST_STAGE)
@@ -67,38 +71,19 @@ class ControlBar(QtGui.QWidget):
         self.baseline_computation = QtGui.QGroupBox(title = 'Baseline parameters', parent = self)
         self.baseline_computation.setLayout(self.baseline_controls)
 
-        self.process_batch_btn = QtGui.QPushButton('Batch process')
-        self.process_batch_btn.clicked.connect(self.launch_batch_process)
-
         layout = QtGui.QVBoxLayout()
-        layout.addWidget(file_controls)
+        layout.addWidget(data_controls)
         layout.addWidget(self.baseline_computation)
-        layout.addWidget(self.process_batch_btn)
+        layout.addStretch(1)
 
         self.setLayout(layout)
         self.resize(self.minimumSize())
         self.toggle_baseline_controls(False)
-
-    def load_raw_data(self):
-        fname = QtGui.QFileDialog.getOpenFileName(parent = self, caption = 'Load spectra', filter = '*.csv')[0]
-        if fname:
-            self.raw_data_path.emit(fname)
-    
-    def export_bs_data(self):
-        fname = QtGui.QFileDialog.getSaveFileName(parent = self, caption = 'Export spectra', filter = '*.csv')[0]
-        if fname:
-            self.export_data_path.emit(fname)
-    
-    def launch_batch_process(self):
-        self.dialog = BatchProcessDialog(self.baseline_parameters(), parent = self)
-        self.dialog.exec_()
     
     @QtCore.pyqtSlot(bool)
     def toggle_baseline_controls(self, toggle):
         """ Toggle on or off the baseline computation controls """
         self.baseline_computation.setEnabled(toggle)
-        self.process_batch_btn.setEnabled(toggle)
-        self.export_spectra_btn.setEnabled(toggle)
 
     def baseline_parameters(self):
         """ Returns a dictionary of baseline-computation parameters """

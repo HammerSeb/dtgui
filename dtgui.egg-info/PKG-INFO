@@ -1,19 +1,19 @@
 Metadata-Version: 1.1
 Name: dtgui
-Version: 0.0.1
-Summary: GUI baseline-subtraction for SERS data
-Home-page: http://www.physics.mcgill.ca/siwicklab
+Version: 0.0.4
+Summary: GUI baseline-subtraction using the dual-tree complex wavelet transform
+Home-page: http://www.physics.mcgill.ca/siwicklab/software.html
 Author: Laurent P. René de Cotret
 Author-email: laurent.renedecotret@mail.mcgill.ca
 License: MIT
-Download-URL: http://github.com/LaurentRDC/uchawi
+Download-URL: http://github.com/LaurentRDC/dtgui
 Description-Content-Type: UNKNOWN
 Description: UNKNOWN
 Keywords: dtgui
 Platform: UNKNOWN
 Classifier: Intended Audience :: Science/Research
 Classifier: Topic :: Scientific/Engineering
-Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: Topic :: Scientific/Engineering :: Visualization
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Natural Language :: English
 Classifier: Operating System :: OS Independent
