@@ -18,6 +18,13 @@ Installation
 
 Other than the pip-installable requirements, dtgui requires PyQt5 to be installed.
 
+Usage
+-----
+
+Once installed, the GUI can be started using the following command:
+
+    python -m dtgui
+
 Support / Report Issues
 -----------------------
 
