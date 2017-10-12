@@ -42,6 +42,7 @@ class DataViewer(QtGui.QWidget):
     
     @QtCore.pyqtSlot()
     def trim_bounds(self):
+        # getRegion() return a 2-tuple of data bounds, not indices
         self.trim_bounds_signal.emit(*self.data_bounds_region.getRegion())
     
     @QtCore.pyqtSlot(object, object)

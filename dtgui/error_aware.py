@@ -31,7 +31,7 @@ class ErrorAware(QtCore.pyqtWrapperType):
     such that a GUI program will not crash on exception 
 
     Exception messages are emitted via the object's 'error_message_signal[str]' if
-    it is available
+    it is available.
     """
     
     def __new__(meta, classname, bases, class_dict):

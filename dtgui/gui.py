@@ -12,7 +12,6 @@ from .controller import Controller
 from .dataviewer import DataViewer
 from .error_aware import ErrorAware
 
-
 class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
 
     raw_data_path = QtCore.pyqtSignal(str)
@@ -37,7 +36,6 @@ class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
         self.controller.clear_baseline_signal.connect(self.data_viewer.clear_baseline_data)
         self.data_viewer.trim_bounds_signal.connect(self.controller.trim_data_bounds)
         
-        # Data trimming
         self.controls.show_trim_widget.connect(self.data_viewer.toggle_trim_widget)
         self.controls.trim_bounds_signal.connect(self.data_viewer.trim_bounds)
 
@@ -92,7 +90,7 @@ class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
     @QtCore.pyqtSlot()
     def launch_batch_process(self):
         self.dialog = BatchProcessDialog(self.controls.baseline_parameters(), parent = self)
-        self.dialog.exec_()
+        return self.dialog.exec_()
 
     @QtCore.pyqtSlot()
     def center_window(self):
@@ -108,6 +106,7 @@ class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
 
 
 def run():
+    
     app = QtGui.QApplication(sys.argv)
     app.setStyleSheet(load_stylesheet_pyqt5())
     gui = DtGui()
