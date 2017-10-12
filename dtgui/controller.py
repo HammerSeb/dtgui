@@ -43,10 +43,11 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
         self.raw_data_loaded_signal.emit(True)
         self.clear_raw_signal.emit()
 
-        self.baseline = None
+        self.baseline = np.zeros_like(self.raw_ordinates)
         self.clear_baseline_signal.emit()
 
         self.raw_plot_signal.emit(self.abscissa, self.raw_ordinates)
+        self.baseline_plot_signal.emit(self.abscissa, self.baseline)
     
     @QtCore.pyqtSlot(float, float)
     def trim_data_bounds(self, mi, ma):
@@ -63,8 +64,10 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
 
         self.abscissa = self.abscissa[min_ind:max_ind]
         self.raw_ordinates = self.raw_ordinates[min_ind:max_ind]
+        self.baseline = np.zeros_like(self.raw_ordinates) # baseline no longer valid
+
         self.raw_plot_signal.emit(self.abscissa, self.raw_ordinates)
-        self.clear_baseline_signal.emit()
+        self.baseline_plot_signal.emit(self.abscissa, self.baseline)
     
     @QtCore.pyqtSlot(str)
     def export_data(self, fname):
