@@ -1,4 +1,6 @@
+MANIFEST.in
 README.rst
+requirements.txt
 setup.py
 test_data.csv
 dtgui/__init__.py
