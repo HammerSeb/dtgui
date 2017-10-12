@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: dtgui
-Version: 0.1.1
+Version: 1.0.0
 Summary: GUI baseline-subtraction using the dual-tree complex wavelet transform
 Home-page: http://www.physics.mcgill.ca/siwicklab/software.html
 Author: Laurent P. René de Cotret
@@ -27,6 +27,13 @@ Description: dtgui
         ------------
         
         Other than the pip-installable requirements, dtgui requires PyQt5 to be installed.
+        
+        Usage
+        -----
+        
+        Once installed, the GUI can be started using the following command:
+        
+            python -m dtgui
         
         Support / Report Issues
         -----------------------
