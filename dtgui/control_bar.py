@@ -24,6 +24,10 @@ class ControlBar(QtGui.QWidget, metaclass = ErrorAware):
         super().__init__(*args, **kwargs)
 
         # Files controls 
+        explanation_label = QtGui.QLabel("""The data fed to dtgui should be comma-separated values files (.csv). The first column is expected to be the abscissa values, while the second column should be the ordinates.""")
+        explanation_label.setWordWrap(True)
+        explanation_label.setAlignment(QtCore.Qt.AlignJustify)
+
         load_data_btn = QtGui.QPushButton('Load data (.csv)')
         load_data_btn.clicked.connect(self.load_raw_data)
 
@@ -75,6 +79,7 @@ class ControlBar(QtGui.QWidget, metaclass = ErrorAware):
 
         file_controls_layout = QtGui.QVBoxLayout()
         file_controls_layout.addWidget(load_data_btn)
+        file_controls_layout.addWidget(explanation_label)
         file_controls_layout.addWidget(export_bs_data_btn)
         file_controls_layout.addWidget(batch_process_btn)
 

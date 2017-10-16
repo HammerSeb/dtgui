@@ -49,7 +49,6 @@ class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
         self.setCentralWidget(self.central_widget)
 
         self.setWindowTitle('DTGUI - Baseline-removal via DTCWT')
-        self.setGeometry(0, 0, 1000, 400)
         self.center_window()
         self.show()
 

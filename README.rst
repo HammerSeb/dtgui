@@ -25,6 +25,9 @@ Once installed, the GUI can be started using the following command:
 
     python -m dtgui
 
+The data fed to dtgui should be comma-separated values files (.csv). The first column is expected to be the abscissa values,
+while the second column should be the ordinates.
+
 Support / Report Issues
 -----------------------
 
