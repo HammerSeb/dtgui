@@ -38,7 +38,9 @@ class DataViewer(QtGui.QWidget):
     
     @QtCore.pyqtSlot(bool)
     def toggle_trim_widget(self, toggle):
-        if toggle: self.data_bounds_region.show()
+        if toggle:
+            self.data_bounds_region.setBounds(self.raw_data_item.dataBounds(ax = 0))
+            self.data_bounds_region.show()
         else: self.data_bounds_region.hide()
     
     @QtCore.pyqtSlot()
