@@ -41,6 +41,10 @@ class ControlBar(QtGui.QWidget, metaclass = ErrorAware):
         self.data_available_signal.connect(batch_process_btn.setEnabled)
 
         # Data trimming controls
+        trim_label = QtGui.QLabel("Data can be trimmed. Drag the edges of the overlay. Data outside the bound will be removed.")
+        trim_label.setWordWrap(True)
+        trim_label.setAlignment(QtCore.Qt.AlignJustify)
+
         show_trim_bounds_btn = QtGui.QPushButton('Enable trim')
         show_trim_bounds_btn.setCheckable(True)
         show_trim_bounds_btn.toggled.connect(self.show_trim_widget)
@@ -78,17 +82,20 @@ class ControlBar(QtGui.QWidget, metaclass = ErrorAware):
         self.compute_baseline_btn.clicked.connect(lambda _: self.baseline_parameters_signal.emit(self.baseline_parameters()))
 
         file_controls_layout = QtGui.QVBoxLayout()
-        file_controls_layout.addWidget(load_data_btn)
         file_controls_layout.addWidget(explanation_label)
+        file_controls_layout.addWidget(load_data_btn)
         file_controls_layout.addWidget(export_bs_data_btn)
         file_controls_layout.addWidget(batch_process_btn)
 
         file_controls = QtGui.QGroupBox(title = 'Files', parent = self)
         file_controls.setLayout(file_controls_layout)
 
-        data_controls_layout = QtGui.QHBoxLayout()
-        data_controls_layout.addWidget(show_trim_bounds_btn)
-        data_controls_layout.addWidget(trigger_trim_btn)
+        data_controls_layout = QtGui.QVBoxLayout()
+        data_controls_layout.addWidget(trim_label)
+        btns = QtGui.QHBoxLayout()
+        btns.addWidget(show_trim_bounds_btn)
+        btns.addWidget(trigger_trim_btn)
+        data_controls_layout.addLayout(btns)
 
         data_controls = QtGui.QGroupBox(title = 'Data massaging', parent = self)
         data_controls.setLayout(data_controls_layout)

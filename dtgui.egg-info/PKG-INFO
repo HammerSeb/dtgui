@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: dtgui
-Version: 1.0.1
+Version: 1.1.0
 Summary: GUI baseline-subtraction using the dual-tree complex wavelet transform
 Home-page: http://www.physics.mcgill.ca/siwicklab/software.html
 Author: Laurent P. René de Cotret

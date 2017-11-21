@@ -82,11 +82,12 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
         if self.baseline is None:
             self.baseline = np.zeros_like(self.raw_ordinates)
 
-        arr = np.empty(shape = (self.raw_ordinates.size, 2))
+        arr = np.empty(shape = (self.raw_ordinates.size, 3), dtype = np.float)
         arr[:,0] = self.abscissa
         arr[:,1] = self.raw_ordinates - self.baseline
+        arr[:,2] = self.baseline
         
-        np.savetxt(fname, arr, delimiter = ',')
+        np.savetxt(fname, arr, delimiter = ',', header = 'abscissa, processed, baseline')
 
     @QtCore.pyqtSlot(dict)
     def compute_baseline(self, params):
