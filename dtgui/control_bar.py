@@ -82,8 +82,8 @@ class ControlBar(QtGui.QWidget, metaclass = ErrorAware):
         self.compute_baseline_btn.clicked.connect(lambda _: self.baseline_parameters_signal.emit(self.baseline_parameters()))
 
         file_controls_layout = QtGui.QVBoxLayout()
-        file_controls_layout.addWidget(load_data_btn)
         file_controls_layout.addWidget(explanation_label)
+        file_controls_layout.addWidget(load_data_btn)
         file_controls_layout.addWidget(export_bs_data_btn)
         file_controls_layout.addWidget(batch_process_btn)
 
