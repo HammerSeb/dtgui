@@ -14,14 +14,15 @@ class DataViewer(QtGui.QWidget):
 
         super().__init__(*args, **kwargs)
 
-        self.plot_widget = pg.PlotWidget(title = '', 
+        self.plot_widget = pg.PlotWidget(title = "<font color = 'green'>Raw data</font>, <font color='red'>Baseline</font>", 
                                          labels = {'left': 'Ordinate', 
                                                    'bottom': 'Abscissa'})
 
+
         self.raw_data_item = pg.PlotDataItem(symbol = 'o', symbolBrush = pg.mkBrush('g'), 
-                                             symbolPen = None, pen = None, symbolSize = 3)
+                                             symbolPen = None, pen = None, symbolSize = 3, name = 'Raw data')
         self.baseline_data_item = pg.PlotDataItem(symbol = 'o', symbolBrush = pg.mkBrush('r'), 
-                                                  symbolPen = None, pen = None, symbolSize = 3)
+                                                  symbolPen = None, pen = None, symbolSize = 3, name = 'Baseline')
         self.data_bounds_region = pg.LinearRegionItem()
         self.data_bounds_region.hide()
 
@@ -42,6 +43,7 @@ class DataViewer(QtGui.QWidget):
     
     @QtCore.pyqtSlot()
     def trim_bounds(self):
+        # getRegion() return a 2-tuple of data bounds, not indices
         self.trim_bounds_signal.emit(*self.data_bounds_region.getRegion())
     
     @QtCore.pyqtSlot(object, object)
