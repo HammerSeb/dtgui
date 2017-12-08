@@ -3,15 +3,15 @@
 import sys
 
 import pyqtgraph as pg
-from pyqtgraph import QtCore, QtGui
 from qdarkstyle import load_stylesheet_pyqt5
+from PyQt5 import QtWidgets, QtCore
 
 from .control_bar import ControlBar
 from .controller import Controller
 from .dataviewer import DataViewer
 from .error_aware import ErrorAware
 
-class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
+class DtGui(QtWidgets.QMainWindow, metaclass = ErrorAware):
 
     error_message_signal = QtCore.pyqtSignal(str)
     
@@ -40,11 +40,11 @@ class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
         self.controller.error_message_signal.connect(self.show_error_message)
         self.data_viewer.error_message_signal.connect(self.show_error_message)
 
-        layout = QtGui.QHBoxLayout()
+        layout = QtWidgets.QHBoxLayout()
         layout.addWidget(self.data_viewer)
         layout.addWidget(self.controls)
 
-        self.central_widget = QtGui.QWidget()
+        self.central_widget = QtWidgets.QWidget()
         self.central_widget.setLayout(layout)
         self.setCentralWidget(self.central_widget)
 
@@ -55,13 +55,13 @@ class DtGui(QtGui.QMainWindow, metaclass = ErrorAware):
     @QtCore.pyqtSlot()
     def center_window(self):
         qr = self.frameGeometry()
-        cp = QtGui.QDesktopWidget().availableGeometry().center()
+        cp = QtWidgets.QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
     @QtCore.pyqtSlot(str)
     def show_error_message(self, msg):
-        self.error_dialog = QtGui.QErrorMessage(parent = self)
+        self.error_dialog = QtWidgets.QErrorMessage(parent = self)
         self.error_dialog.showMessage(msg)
 
 

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from pyqtgraph import QtCore
+from PyQt5 import QtCore
+
 from skued import baseline_dt
 
 from .error_aware import ErrorAware
+
 
 class Controller(QtCore.QObject, metaclass = ErrorAware):
 

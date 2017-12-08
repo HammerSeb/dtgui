@@ -6,7 +6,8 @@ from contextlib import suppress
 from functools import wraps
 from types import FunctionType
 
-from pyqtgraph import QtCore
+from PyQt5 import QtCore
+
 
 def error_aware(func):
     """
