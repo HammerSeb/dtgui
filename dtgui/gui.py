@@ -4,7 +4,7 @@ import sys
 
 import pyqtgraph as pg
 from qdarkstyle import load_stylesheet_pyqt5
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 from .control_bar import ControlBar
 from .controller import Controller

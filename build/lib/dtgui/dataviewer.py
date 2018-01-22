@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from pyqtgraph import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
 
-class DataViewer(QtGui.QWidget):
+class DataViewer(QtWidgets.QWidget):
     """ Widget displaying raw and baseline-removed data """
 
     error_message_signal = QtCore.pyqtSignal(str)
@@ -31,7 +31,7 @@ class DataViewer(QtGui.QWidget):
         self.plot_widget.addItem(self.baseline_data_item)
         self.plot_widget.addItem(self.data_bounds_region)
 
-        layout = QtGui.QVBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.addWidget(self.plot_widget)
 
         self.setLayout(layout)

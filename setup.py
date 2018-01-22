@@ -36,7 +36,7 @@ if __name__ == '__main__':
         license = 'MIT',
         url = URL,
         download_url = DOWNLOAD_URL,
-        version = '1.1.0',
+        version = '1.1.1',
         author = AUTHOR,
         author_email = AUTHOR_EMAIL,
         maintainer = AUTHOR,
