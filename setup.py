@@ -18,7 +18,7 @@ BASE_PACKAGE    = 'dtgui'
 
 base_path = os.path.dirname(__file__)
 
-with open('README.rst') as f:
+with open('README.rst', encoding = "utf8") as f:
     README = f.read()
 
 with open('requirements.txt') as f:
@@ -36,7 +36,7 @@ if __name__ == '__main__':
         license = 'MIT',
         url = URL,
         download_url = DOWNLOAD_URL,
-        version = '1.1.1',
+        version = '1.1.3',
         author = AUTHOR,
         author_email = AUTHOR_EMAIL,
         maintainer = AUTHOR,

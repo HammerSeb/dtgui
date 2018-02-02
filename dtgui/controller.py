@@ -10,14 +10,14 @@ from .error_aware import ErrorAware
 
 class Controller(QtCore.QObject, metaclass = ErrorAware):
 
-    raw_plot_signal = QtCore.pyqtSignal(object, object)
-    baseline_plot_signal = QtCore.pyqtSignal(object, object)
+    raw_plot_signal         = QtCore.pyqtSignal(object, object)
+    baseline_plot_signal    = QtCore.pyqtSignal(object, object)
 
-    clear_raw_signal = QtCore.pyqtSignal()
-    clear_baseline_signal = QtCore.pyqtSignal()
+    clear_raw_signal        = QtCore.pyqtSignal()
+    clear_baseline_signal   = QtCore.pyqtSignal()
 
-    raw_data_loaded_signal = QtCore.pyqtSignal(bool)
-    error_message_signal = QtCore.pyqtSignal(str)
+    raw_data_loaded_signal  = QtCore.pyqtSignal(bool)
+    error_message_signal    = QtCore.pyqtSignal(str)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

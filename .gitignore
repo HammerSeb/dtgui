@@ -108,3 +108,5 @@ ENV/
 .idea/
 benchmark.py
 potential_map.py
+*.pyc
+*.pyc

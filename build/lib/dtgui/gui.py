@@ -18,7 +18,10 @@ class DtGui(QtWidgets.QMainWindow, metaclass = ErrorAware):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.controller = Controller(parent = self) # TODO: different thread?
+        self.controller = Controller() 
+        self._control_thread = QtCore.QThread()
+        self.controller.moveToThread(self._control_thread)
+        self._control_thread.start()
 
         self.controls = ControlBar(parent = self)
         self.controller.raw_data_loaded_signal.connect(self.controls.data_available_signal)
@@ -51,6 +54,11 @@ class DtGui(QtWidgets.QMainWindow, metaclass = ErrorAware):
         self.setWindowTitle('DTGUI - Baseline-removal via DTCWT')
         self.center_window()
         self.show()
+    
+    def closeEvent(self, event):
+        self._control_thread.quit()
+        self._control_thread.wait()
+        super().closeEvent(event)
 
     @QtCore.pyqtSlot()
     def center_window(self):

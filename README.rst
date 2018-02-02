@@ -11,7 +11,7 @@ published in the following article:
     .. [#] L. P. René de Cotret and B. J. Siwick, A general method for baseline-removal in ultrafast 
            electron powder diffraction data using the dual-tree complex wavelet transform, Struct. Dyn. 4 (2017) DOI: 10.1063/1.4972518.
 
-The underlying function is `documented in its original package <http://scikit-ued.readthedocs.io/en/release/functions/skued.baseline_dt.html#skued.baseline_dt>`_.
+The underlying function is `documented in its original package <http://scikit-ued.readthedocs.io/en/master/functions/skued.baseline_dt.html#skued.baseline_dt>`_.
 
 Installation
 ------------

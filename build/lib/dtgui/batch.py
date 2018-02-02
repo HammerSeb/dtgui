@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
+import configparser
 import os.path
 
-import configparser
 import numpy as np
-from pyqtgraph import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets
 
 from skued import baseline_dt
 
 
-class BatchProcessDialog(QtGui.QDialog):
+class BatchProcessDialog(QtWidgets.QDialog):
 
     processing_update_signal = QtCore.pyqtSignal(int)
 
@@ -26,39 +26,39 @@ class BatchProcessDialog(QtGui.QDialog):
         self.setModal(True)
         self.setWindowTitle('Batch baseline-removal')
 
-        self.file_table = QtGui.QListWidget(parent = self)
+        self.file_table = QtWidgets.QListWidget(parent = self)
         
-        self.progress_bar = QtGui.QProgressBar(parent = self)
+        self.progress_bar = QtWidgets.QProgressBar(parent = self)
         self.progress_bar.setRange(0, 100)
         self.progress_bar.setValue(0)
         self.processing_update_signal.connect(self.progress_bar.setValue)
 
-        explanation = QtGui.QLabel("""Select files to be baseline-subtracted according to the parameters set in the previous screen. The files will be processed and stored in a directory of your choosing, along with a configuration file (.cfg) specifying the parameters used.""")
+        explanation = QtWidgets.QLabel("""Select files to be baseline-subtracted according to the parameters set in the previous screen. The files will be processed and stored in a directory of your choosing, along with a configuration file (.cfg) specifying the parameters used.""")
         explanation.setWordWrap(True)
         explanation.setAlignment(QtCore.Qt.AlignCenter)
 
-        file_search_btn = QtGui.QPushButton('Add file(s) to batch', self)
+        file_search_btn = QtWidgets.QPushButton('Add file(s) to batch', self)
         file_search_btn.clicked.connect(self.add_spectra)
 
-        clear_btn = QtGui.QPushButton('Clear files', self)
+        clear_btn = QtWidgets.QPushButton('Clear files', self)
         clear_btn.clicked.connect(self.clear)
 
-        accept_btn = QtGui.QPushButton('Process', self)
+        accept_btn = QtWidgets.QPushButton('Process', self)
         accept_btn.clicked.connect(self.accept)
 
-        reject_btn = QtGui.QPushButton('Cancel', self)
+        reject_btn = QtWidgets.QPushButton('Cancel', self)
         reject_btn.clicked.connect(self.reject)
         reject_btn.setDefault(True)
 
-        btns = QtGui.QHBoxLayout()
+        btns = QtWidgets.QHBoxLayout()
         btns.addWidget(file_search_btn)
         btns.addWidget(clear_btn)
         
-        controls = QtGui.QHBoxLayout()
+        controls = QtWidgets.QHBoxLayout()
         controls.addWidget(accept_btn)
         controls.addWidget(reject_btn)
 
-        layout = QtGui.QVBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.addWidget(explanation)
         layout.addLayout(btns)
         layout.addWidget(self.file_table)
@@ -68,7 +68,7 @@ class BatchProcessDialog(QtGui.QDialog):
     
     @QtCore.pyqtSlot()
     def add_spectra(self):
-        paths = QtGui.QFileDialog.getOpenFileNames(self, caption = 'Select one or more spectra', filter = '*.csv')[0]
+        paths = QtWidgets.QFileDialog.getOpenFileNames(self, caption = 'Select one or more spectra', filter = '*.csv')[0]
         
         if paths:
             self.files.extend(paths)
@@ -82,7 +82,7 @@ class BatchProcessDialog(QtGui.QDialog):
     @QtCore.pyqtSlot()
     def accept(self):
 
-        directory = QtGui.QFileDialog.getExistingDirectory(self, 'Select a directory in which to save the processed files')
+        directory = QtWidgets.QFileDialog.getExistingDirectory(self, 'Select a directory in which to save the processed files')
         if not directory:
             return
 

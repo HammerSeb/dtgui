@@ -8,23 +8,27 @@ from skued.baseline import ALL_COMPLEX_WAV, ALL_FIRST_STAGE
 from .batch import BatchProcessDialog
 from .error_aware import ErrorAware
 
+EXPLANATION = """The data fed to dtgui should be comma-separated values files (.csv). 
+The first column is expected to be the abscissa values, while the second column should be the ordinates."""
+
+TRIM_TEXT = "Data can be trimmed. Drag the edges of the overlay. Data outside the bound will be removed."
 
 class ControlBar(QtWidgets.QWidget, metaclass = ErrorAware):
 
-    baseline_parameters_signal = QtCore.pyqtSignal(dict)
-    show_trim_widget = QtCore.pyqtSignal(bool)
-    trim_bounds_signal = QtCore.pyqtSignal()
+    baseline_parameters_signal  = QtCore.pyqtSignal(dict)
+    show_trim_widget            = QtCore.pyqtSignal(bool)
+    trim_bounds_signal          = QtCore.pyqtSignal()
 
-    raw_data_path = QtCore.pyqtSignal(str)
-    export_data_path = QtCore.pyqtSignal(str)
+    raw_data_path               = QtCore.pyqtSignal(str)
+    export_data_path            = QtCore.pyqtSignal(str)
 
-    data_available_signal = QtCore.pyqtSignal(bool)
+    data_available_signal       = QtCore.pyqtSignal(bool)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Files controls 
-        explanation_label = QtWidgets.QLabel("""The data fed to dtgui should be comma-separated values files (.csv). The first column is expected to be the abscissa values, while the second column should be the ordinates.""")
+        explanation_label = QtWidgets.QLabel(EXPLANATION)
         explanation_label.setWordWrap(True)
         explanation_label.setAlignment(QtCore.Qt.AlignJustify)
 
@@ -41,7 +45,7 @@ class ControlBar(QtWidgets.QWidget, metaclass = ErrorAware):
         self.data_available_signal.connect(batch_process_btn.setEnabled)
 
         # Data trimming controls
-        trim_label = QtWidgets.QLabel("Data can be trimmed. Drag the edges of the overlay. Data outside the bound will be removed.")
+        trim_label = QtWidgets.QLabel(TRIM_TEXT)
         trim_label.setWordWrap(True)
         trim_label.setAlignment(QtCore.Qt.AlignJustify)
 

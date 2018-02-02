@@ -8,7 +8,7 @@ class DataViewer(QtWidgets.QWidget):
     """ Widget displaying raw and baseline-removed data """
 
     error_message_signal = QtCore.pyqtSignal(str)
-    trim_bounds_signal = QtCore.pyqtSignal(float, float)
+    trim_bounds_signal   = QtCore.pyqtSignal(float, float)
     
     def __init__(self, *args, **kwargs):
 
