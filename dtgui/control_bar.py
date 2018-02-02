@@ -8,8 +8,11 @@ from skued.baseline import ALL_COMPLEX_WAV, ALL_FIRST_STAGE
 from .batch import BatchProcessDialog
 from .error_aware import ErrorAware
 
-EXPLANATION = """The data fed to dtgui should be comma-separated values files (.csv). 
-The first column is expected to be the abscissa values, while the second column should be the ordinates."""
+EXPLANATION = """
+The data fed to dtgui should be comma-separated values files (.csv). 
+The first column is expected to be the abscissa values, 
+while the second column should be the ordinates.
+""".replace('\n', '')
 
 TRIM_TEXT = "Data can be trimmed. Drag the edges of the overlay. Data outside the bound will be removed."
 
