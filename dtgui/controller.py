@@ -8,16 +8,16 @@ from skued import baseline_dt
 from .error_aware import ErrorAware
 
 
-class Controller(QtCore.QObject, metaclass = ErrorAware):
+class Controller(QtCore.QObject, metaclass=ErrorAware):
 
-    raw_plot_signal         = QtCore.pyqtSignal(object, object)
-    baseline_plot_signal    = QtCore.pyqtSignal(object, object)
+    raw_plot_signal = QtCore.pyqtSignal(object, object)
+    baseline_plot_signal = QtCore.pyqtSignal(object, object)
 
-    clear_raw_signal        = QtCore.pyqtSignal()
-    clear_baseline_signal   = QtCore.pyqtSignal()
+    clear_raw_signal = QtCore.pyqtSignal()
+    clear_baseline_signal = QtCore.pyqtSignal()
 
-    raw_data_loaded_signal  = QtCore.pyqtSignal(bool)
-    error_message_signal    = QtCore.pyqtSignal(str)
+    raw_data_loaded_signal = QtCore.pyqtSignal(bool)
+    error_message_signal = QtCore.pyqtSignal(str)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,10 +26,18 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
         self.raw_ordinates = None
         self.baseline = None
 
+        # Background-only location
+        self.background_markers = list()
+
         self.clear_raw_signal.emit()
         self.clear_baseline_signal.emit()
         self.raw_data_loaded_signal.emit(False)
-    
+
+    @QtCore.pyqtSlot(list)
+    def update_background_markers(self, markers):
+        """ Update the background-only indices """
+        self.background_markers = markers
+
     @QtCore.pyqtSlot(str)
     def load_raw_data(self, fname):
         """ 
@@ -41,7 +49,9 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
         fname : str
             absolute filename
         """
-        self.abscissa, self.raw_ordinates = np.loadtxt(fname, delimiter = ',', unpack = True)
+        self.abscissa, self.raw_ordinates = np.loadtxt(
+            fname, delimiter=",", unpack=True
+        )
         self.raw_data_loaded_signal.emit(True)
         self.clear_raw_signal.emit()
 
@@ -50,7 +60,7 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
 
         self.raw_plot_signal.emit(self.abscissa, self.raw_ordinates)
         self.baseline_plot_signal.emit(self.abscissa, self.baseline)
-    
+
     @QtCore.pyqtSlot(float, float)
     def trim_data_bounds(self, mi, ma):
         """ 
@@ -66,11 +76,11 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
 
         self.abscissa = self.abscissa[min_ind:max_ind]
         self.raw_ordinates = self.raw_ordinates[min_ind:max_ind]
-        self.baseline = np.zeros_like(self.raw_ordinates) # baseline no longer valid
+        self.baseline = np.zeros_like(self.raw_ordinates)  # baseline no longer valid
 
         self.raw_plot_signal.emit(self.abscissa, self.raw_ordinates)
         self.baseline_plot_signal.emit(self.abscissa, self.baseline)
-    
+
     @QtCore.pyqtSlot(str)
     def export_data(self, fname):
         """ 
@@ -84,17 +94,23 @@ class Controller(QtCore.QObject, metaclass = ErrorAware):
         if self.baseline is None:
             self.baseline = np.zeros_like(self.raw_ordinates)
 
-        arr = np.empty(shape = (self.raw_ordinates.size, 3), dtype = np.float)
-        arr[:,0] = self.abscissa
-        arr[:,1] = self.raw_ordinates - self.baseline
-        arr[:,2] = self.baseline
-        
-        np.savetxt(fname, arr, delimiter = ',', header = 'abscissa, processed, baseline')
+        arr = np.empty(shape=(self.raw_ordinates.size, 3), dtype=np.float)
+        arr[:, 0] = self.abscissa
+        arr[:, 1] = self.raw_ordinates - self.baseline
+        arr[:, 2] = self.baseline
+
+        np.savetxt(fname, arr, delimiter=",", header="abscissa, processed, baseline")
 
     @QtCore.pyqtSlot(dict)
     def compute_baseline(self, params):
         """ Compute dual-tree complex wavelet baseline. All parameters are
         passed to scikit-ued's baseline_dt function. """
+
+        # Determine the background markers index
+        markers_index = sorted(
+            [np.argmin(np.abs(m - self.abscissa)) for m in self.background_markers]
+        )
+        params["background_regions"] = markers_index
 
         self.baseline = baseline_dt(self.raw_ordinates, **params)
         self.baseline_plot_signal.emit(self.abscissa, self.baseline)
