@@ -1,4 +1,4 @@
-[WARNING: this repository is UNMAINTAINED at the moment. If you would like to use it, please raise an issue and I'll happily update the repository]
+[WARNING: this repository is UNMAINTAINED at the moment (2019/09/26). If you would like to use it, please raise an issue and I'll happily update the repository]
 
 dtgui
 =====
