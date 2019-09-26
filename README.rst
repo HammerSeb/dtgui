@@ -1,3 +1,5 @@
+[WARNING: this repository is UNMAINTAINED at the moment. If you would like to use it, please raise an issue and I'll happily update the repository]
+
 dtgui
 =====
 
