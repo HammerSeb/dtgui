@@ -29,7 +29,7 @@ def error_aware(func):
     return aware_func
 
 
-class ErrorAware(QtCore.pyqtWrapperType):
+class ErrorAware(type(QtCore.QObject)):
     """ 
     Metaclass for QObjects (including QWidgets)
     such that a GUI program will not crash on exception 

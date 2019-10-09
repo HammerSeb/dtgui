@@ -1,6 +1,6 @@
 numpy >= 1.12
 pyqtgraph >= 0.10
-scikit-ued >= 0.5.5
+scikit-ued >= 2.0.0
 pyqt5
-pywavelets >= 0.5.2
+pywavelets >= 1.0.0
 qdarkstyle >= 2.3.1
