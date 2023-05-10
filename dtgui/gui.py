@@ -136,7 +136,7 @@ class DtGui(QtWidgets.QMainWindow, metaclass=ErrorAware):
 
 def run():
 
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet(load_stylesheet_pyqt5())
     gui = DtGui()
     sys.exit(app.exec_())
